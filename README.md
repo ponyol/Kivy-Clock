@@ -103,6 +103,46 @@ Kivy-Clock/
 | `Esc` | Exit application |
 | `F1` | Open settings panel |
 
+## macOS Packaging
+
+To create a standalone .app bundle for macOS distribution:
+
+### Quick Start
+
+```bash
+# Install PyInstaller
+pip install pyinstaller
+
+# Build the .app bundle
+pyinstaller kivy-clock.spec
+
+# The app will be in dist/Kivy Clock.app
+open "dist/Kivy Clock.app"
+```
+
+### Create DMG for Distribution
+
+```bash
+# Make sure the app is built first
+pyinstaller kivy-clock.spec
+
+# Create DMG installer
+./create_dmg.sh
+
+# Result: Kivy-Clock-1.0.0.dmg
+```
+
+### Detailed Instructions
+
+For complete packaging instructions including:
+- Creating .app bundles with PyInstaller or py2app
+- Creating DMG installers
+- Code signing and notarization
+- Creating application icons
+- Troubleshooting common issues
+
+See **[MACOS_PACKAGING.md](MACOS_PACKAGING.md)** for the full guide.
+
 ## License
 
 See [LICENSE](LICENSE) file for details.

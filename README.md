@@ -13,8 +13,17 @@ A simple, minimal fullscreen/windowed clock application built with Kivy. Display
   - DejaVu Sans Mono (console font)
   - Source Code Pro (Adobe console font)
   - Fira Mono (Mozilla console font)
-- **Customizable Colors**: Set text color via hex code
-- **Clean UI**: Dark gray background with centered, perfectly aligned text
+- **Customizable Backgrounds**: 7 macOS-inspired presets + custom color option:
+  - Dark Gray (default)
+  - Pure Black (perfect for OLED)
+  - Graphite (macOS style)
+  - Midnight Blue
+  - Dark Navy
+  - Forest Green
+  - Charcoal
+  - Custom (your own hex color)
+- **Customizable Text Color**: Set text color via hex code
+- **Clean UI**: Centered, perfectly aligned display with instant preview of changes
 - **Keyboard Shortcuts**:
   - `F1` - Open settings panel
   - `Esc` - Exit application
@@ -83,15 +92,26 @@ Press `F1` while the application is running to open the settings panel.
    - `windowed` - Opens in a 1024x768 window (default)
    - `fullscreen` - Opens in fullscreen mode
 
-2. **Font**
+2. **Background**
+   - Select from 7 preset backgrounds or custom color
+   - Presets: Dark Gray (default), Pure Black, Graphite, Midnight Blue, Dark Navy, Forest Green, Charcoal, Custom
+   - Changes apply instantly
+
+3. **Custom Background**
+   - Enter hex color code for custom background (e.g., `#1A1A1A`)
+   - Only used when "Custom" is selected in Background setting
+
+4. **Font**
    - Select from 6 pre-installed fonts
    - Default: Roboto Thin
+   - Changes apply instantly
 
-3. **Text Color**
+5. **Text Color**
    - Enter hex color code (e.g., `#FF0000` for red, `#00FF00` for green)
    - Default: Red (`#FF0000`)
+   - Changes apply instantly
 
-**NOTE:** Changes to Launch Mode require restarting the application to take effect. Font and color changes apply immediately.
+**NOTE:** Changes to Launch Mode require restarting the application to take effect. All other changes (background, font, color) apply immediately.
 
 ## Project Structure
 
@@ -119,6 +139,7 @@ Kivy-Clock/
 - **Update Frequency**: 1 second (time updates every second, date updates when it changes)
 - **Default Window Size**: 1024x768 (windowed mode)
 - **Default Colors**: Dark gray background (#2B2B2B), red text (#FF0000)
+- **Background Options**: 7 presets + custom (all optimized for readability)
 
 ## Keyboard Shortcuts
 

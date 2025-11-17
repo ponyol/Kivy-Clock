@@ -59,6 +59,23 @@ BACKGROUND_PRESETS = {
     'Charcoal': '#222222',       # Charcoal gray
 }
 
+# Text color presets
+# NOTE: Vibrant colors optimized for readability on dark backgrounds
+TEXT_COLOR_PRESETS = {
+    'Red': '#FF0000',            # Classic red (default)
+    'Neon Red': '#FF3B30',       # iOS red
+    'Orange': '#FF9500',         # Warm orange
+    'Yellow': '#FFD60A',         # Bright yellow
+    'Green': '#30D158',          # iOS green
+    'Mint': '#00C7BE',           # Mint green
+    'Cyan': '#64D2FF',           # Light cyan
+    'Blue': '#0A84FF',           # iOS blue
+    'Purple': '#BF5AF2',         # iOS purple
+    'Pink': '#FF2D92',           # Hot pink
+    'White': '#FFFFFF',          # Pure white
+    'Silver': '#C0C0C0',         # Silver gray
+}
+
 
 def get_background_color(preset: str, custom_color: str = '') -> Tuple[float, float, float, float]:
     """
@@ -83,6 +100,32 @@ def get_background_color(preset: str, custom_color: str = '') -> Tuple[float, fl
 
     # Get color from presets
     hex_color = BACKGROUND_PRESETS.get(preset, BACKGROUND_PRESETS['Dark Gray'])
+    return get_color_from_hex(hex_color)
+
+
+def get_text_color(preset: str, custom_color: str = '') -> Tuple[float, float, float, float]:
+    """
+    Returns text color based on preset name or custom hex.
+
+    Args:
+        preset: Name of the text color preset
+        custom_color: Custom hex color (used only if preset is 'Custom')
+
+    Returns:
+        RGBA tuple with values between 0 and 1
+
+    NOTE: If preset is 'Custom', uses custom_color, otherwise uses preset from TEXT_COLOR_PRESETS
+    """
+    if preset == 'Custom':
+        if custom_color:
+            return get_color_from_hex(custom_color)
+        else:
+            # Fallback to Red if Custom selected but no color provided
+            print("WARNING: 'Custom' text color selected but no color provided, using Red")
+            return get_color_from_hex(TEXT_COLOR_PRESETS['Red'])
+
+    # Get color from presets
+    hex_color = TEXT_COLOR_PRESETS.get(preset, TEXT_COLOR_PRESETS['Red'])
     return get_color_from_hex(hex_color)
 
 
@@ -242,7 +285,8 @@ class ClockApp(App):
             'background': 'Dark Gray',
             'custom_background': '#2B2B2B',
             'font': 'Roboto-Thin',
-            'color': '#FF0000'
+            'text_color': 'Red',
+            'custom_text_color': '#FF0000'
         })
 
     def build_settings(self, settings) -> None:
@@ -295,8 +339,8 @@ class ClockApp(App):
             # Background changes
             if key in ('background', 'custom_background'):
                 self._apply_background()
-            # Font and color changes
-            else:
+            # Font and text color changes
+            elif key in ('font', 'text_color', 'custom_text_color'):
                 self._apply_aesthetics()
 
         elif section == 'Display' and key == 'launch_mode':
@@ -321,8 +365,8 @@ class ClockApp(App):
         # Get background color
         bg_rgba = get_background_color(background_preset, custom_bg)
 
-        # Apply to root layout
-        self.root.bg_color = bg_rgba
+        # Apply to root layout (convert tuple to list for ListProperty)
+        self.root.bg_color = list(bg_rgba)
 
     def _apply_aesthetics(self) -> None:
         """
@@ -336,7 +380,8 @@ class ClockApp(App):
 
         # Get current settings
         font_name = self.config.get('Aesthetics', 'font')
-        color_hex = self.config.get('Aesthetics', 'color')
+        text_color_preset = self.config.get('Aesthetics', 'text_color')
+        custom_text = self.config.get('Aesthetics', 'custom_text_color')
 
         # Construct font path
         font_path = Path(__file__).parent / 'fonts' / f'{font_name}.ttf'
@@ -347,8 +392,8 @@ class ClockApp(App):
             print("Using default Kivy font")
             font_path = None
 
-        # Convert color
-        color_rgba = get_color_from_hex(color_hex)
+        # Get text color
+        color_rgba = get_text_color(text_color_preset, custom_text)
 
         # Apply to both labels
         if font_path:

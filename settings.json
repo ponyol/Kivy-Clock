@@ -47,10 +47,32 @@
         ]
     },
     {
-        "type": "string",
+        "type": "options",
         "title": "Text Color",
-        "desc": "Enter hex color code (e.g., #FF0000 for red, #00FF00 for green)",
+        "desc": "Select text color preset",
         "section": "Aesthetics",
-        "key": "color"
+        "key": "text_color",
+        "options": [
+            "Red",
+            "Neon Red",
+            "Orange",
+            "Yellow",
+            "Green",
+            "Mint",
+            "Cyan",
+            "Blue",
+            "Purple",
+            "Pink",
+            "White",
+            "Silver",
+            "Custom"
+        ]
+    },
+    {
+        "type": "string",
+        "title": "Custom Text Color",
+        "desc": "Hex color for text (only used if 'Custom' is selected above, e.g., #00FF00)",
+        "section": "Aesthetics",
+        "key": "custom_text_color"
     }
 ]

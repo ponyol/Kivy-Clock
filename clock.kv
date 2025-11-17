@@ -1,0 +1,38 @@
+#:kivy 2.3.0
+
+<ClockLayout>:
+    canvas.before:
+        Color:
+            rgba: 0.169, 0.169, 0.169, 1  # Dark gray background (#2B2B2B)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    BoxLayout:
+        id: info_container
+        orientation: 'vertical'
+        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+        size_hint: (None, None)
+        width: root.width * 0.9
+        height: date_label.texture_size[1] + time_label.texture_size[1] + self.spacing
+        spacing: root.height * 0.02
+
+        Label:
+            id: date_label
+            text: "Monday, November 17"
+            font_size: root.height / 10
+            halign: 'center'
+            valign: 'middle'
+            size_hint: (1, None)
+            height: self.texture_size[1]
+            text_size: self.width, None
+
+        Label:
+            id: time_label
+            text: "00:00:00"
+            font_size: root.height / 5
+            halign: 'center'
+            valign: 'middle'
+            size_hint: (1, None)
+            height: self.texture_size[1]
+            text_size: self.width, None

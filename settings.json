@@ -1,0 +1,32 @@
+[
+    {
+        "type": "options",
+        "title": "Launch Mode",
+        "desc": "Choose how the application starts (requires restart to take effect)",
+        "section": "Display",
+        "key": "launch_mode",
+        "options": ["fullscreen", "windowed"]
+    },
+    {
+        "type": "options",
+        "title": "Font",
+        "desc": "Select the font for the clock display",
+        "section": "Aesthetics",
+        "key": "font",
+        "options": [
+            "Roboto-Thin",
+            "DSEG7Classic-Regular",
+            "UbuntuMono-Regular",
+            "DejaVuSansMono",
+            "SourceCodePro-Regular",
+            "FiraMono-Regular"
+        ]
+    },
+    {
+        "type": "string",
+        "title": "Text Color",
+        "desc": "Enter hex color code (e.g., #FF0000 for red, #00FF00 for green)",
+        "section": "Aesthetics",
+        "key": "color"
+    }
+]

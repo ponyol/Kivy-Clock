@@ -16,12 +16,32 @@
 ## Требования
 
 - macOS 10.13 (High Sierra) или новее
-- Python 3.9+ установленный через официальный installer или Homebrew
+- **Python 3.9-3.13** (рекомендуется 3.11)
+  - ⚠️ Python 3.14+ имеет проблемы совместимости с Kivy
 - Установленные зависимости проекта
 
+### Установка Python (если нужно)
+
 ```bash
-pip install -r requirements.txt
+# Через Homebrew (рекомендуется)
+brew install python@3.11
+
+# Создание виртуального окружения
+python3.11 -m venv .venv
+source .venv/bin/activate
 ```
+
+### Установка зависимостей
+
+```bash
+# ВАЖНО: Используйте kivy[base] для macOS
+pip install -r requirements.txt
+
+# Или вручную:
+pip install 'kivy[base]>=2.3.0' requests>=2.31.0
+```
+
+**Примечание:** `kivy[base]` включает все необходимые зависимости для работы оконной системы на macOS (SDL2, и т.д.)
 
 ---
 
@@ -368,6 +388,43 @@ rm -rf icon.iconset
 ---
 
 ## Устранение неполадок
+
+### Проблема: "Unable to find any valuable Window provider"
+
+**Ошибка:**
+```
+[CRITICAL] [Window] Unable to find any valuable Window provider
+ModuleNotFoundError: No module named 'pygame'
+```
+
+**Причина:** Не установлены зависимости для оконной системы Kivy.
+
+**Решение:**
+```bash
+# Переустановите Kivy с полными зависимостями
+pip uninstall kivy
+pip install 'kivy[base]>=2.3.0'
+
+# Или используйте requirements.txt который уже включает [base]
+pip install -r requirements.txt
+```
+
+### Проблема: Python 3.14 совместимость
+
+**Ошибка:** Различные проблемы при использовании Python 3.14+
+
+**Решение:**
+```bash
+# Установите Python 3.11 через Homebrew
+brew install python@3.11
+
+# Создайте новое виртуальное окружение
+python3.11 -m venv .venv
+source .venv/bin/activate
+
+# Переустановите зависимости
+pip install -r requirements.txt
+```
 
 ### Проблема: "App is damaged and can't be opened"
 

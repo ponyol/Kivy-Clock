@@ -23,10 +23,14 @@ A simple, minimal fullscreen/windowed clock application built with Kivy. Display
 
 ### Prerequisites
 
-- Python 3.9 or newer
+- Python 3.9-3.13 (recommended: 3.11)
 - pip (Python package manager)
 
+**Note:** Python 3.14+ may have compatibility issues with some Kivy dependencies.
+
 ### Setup
+
+#### Linux / Windows
 
 1. Clone or download this repository
 2. Install dependencies:
@@ -40,6 +44,26 @@ pip install -r requirements.txt
 ```bash
 python3 download_fonts.py
 ```
+
+#### macOS
+
+For macOS, you need additional dependencies for the window system:
+
+```bash
+# Install Kivy with all dependencies
+pip install 'kivy[base]>=2.3.0' requests>=2.31.0
+
+# Or use the requirements file (already includes [base])
+pip install -r requirements.txt
+
+# Download fonts if needed
+python3 download_fonts.py
+```
+
+**Troubleshooting on macOS:**
+- If you get "Unable to find Window provider" error, make sure you installed `kivy[base]` not just `kivy`
+- For Python 3.14+, you may need to use Python 3.11-3.13 instead
+- You can install Python 3.11 via Homebrew: `brew install python@3.11`
 
 ## Usage
 

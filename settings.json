@@ -9,6 +9,30 @@
     },
     {
         "type": "options",
+        "title": "Background",
+        "desc": "Select background color preset",
+        "section": "Aesthetics",
+        "key": "background",
+        "options": [
+            "Dark Gray",
+            "Pure Black",
+            "Graphite",
+            "Midnight Blue",
+            "Dark Navy",
+            "Forest Green",
+            "Charcoal",
+            "Custom"
+        ]
+    },
+    {
+        "type": "string",
+        "title": "Custom Background",
+        "desc": "Hex color for background (only used if 'Custom' is selected above, e.g., #1A1A1A)",
+        "section": "Aesthetics",
+        "key": "custom_background"
+    },
+    {
+        "type": "options",
         "title": "Font",
         "desc": "Select the font for the clock display",
         "section": "Aesthetics",

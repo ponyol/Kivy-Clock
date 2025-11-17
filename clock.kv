@@ -1,9 +1,11 @@
 #:kivy 2.3.0
 
 <ClockLayout>:
+    bg_color: (0.169, 0.169, 0.169, 1)  # Default: Dark gray (#2B2B2B)
+
     canvas.before:
         Color:
-            rgba: 0.169, 0.169, 0.169, 1  # Dark gray background (#2B2B2B)
+            rgba: root.bg_color
         Rectangle:
             pos: self.pos
             size: self.size

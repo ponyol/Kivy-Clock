@@ -14,6 +14,7 @@ from kivy.app import App
 from kivy.clock import Clock
 from kivy.config import Config
 from kivy.core.window import Window
+from kivy.properties import ListProperty
 from kivy.uix.floatlayout import FloatLayout
 from kivy.utils import get_color_from_hex as kivy_get_color_from_hex
 
@@ -44,6 +45,45 @@ def _preconfigure_window():
 
 # Pre-configure before continuing
 _preconfigure_window()
+
+
+# Background color presets
+# NOTE: These are inspired by macOS dark mode aesthetics
+BACKGROUND_PRESETS = {
+    'Dark Gray': '#2B2B2B',      # Current default
+    'Pure Black': '#000000',      # Perfect for OLED screens
+    'Graphite': '#3C3C3C',       # macOS Graphite appearance
+    'Midnight Blue': '#0F1419',  # Deep blue-black
+    'Dark Navy': '#1A1F3A',      # Navy blue dark mode
+    'Forest Green': '#0F1F0F',   # Dark forest green
+    'Charcoal': '#222222',       # Charcoal gray
+}
+
+
+def get_background_color(preset: str, custom_color: str = '') -> Tuple[float, float, float, float]:
+    """
+    Returns background color based on preset name or custom hex.
+
+    Args:
+        preset: Name of the background preset
+        custom_color: Custom hex color (used only if preset is 'Custom')
+
+    Returns:
+        RGBA tuple with values between 0 and 1
+
+    NOTE: If preset is 'Custom', uses custom_color, otherwise uses preset from BACKGROUND_PRESETS
+    """
+    if preset == 'Custom':
+        if custom_color:
+            return get_color_from_hex(custom_color)
+        else:
+            # Fallback to Dark Gray if Custom selected but no color provided
+            print("WARNING: 'Custom' background selected but no color provided, using Dark Gray")
+            return get_color_from_hex(BACKGROUND_PRESETS['Dark Gray'])
+
+    # Get color from presets
+    hex_color = BACKGROUND_PRESETS.get(preset, BACKGROUND_PRESETS['Dark Gray'])
+    return get_color_from_hex(hex_color)
 
 
 def get_color_from_hex(hex_color: str) -> Tuple[float, float, float, float]:
@@ -84,6 +124,9 @@ class ClockLayout(FloatLayout):
 
     Handles time updates and keyboard input for the application.
     """
+
+    # Background color property (RGBA tuple)
+    bg_color = ListProperty([0.169, 0.169, 0.169, 1])
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -196,6 +239,8 @@ class ClockApp(App):
         })
 
         config.setdefaults('Aesthetics', {
+            'background': 'Dark Gray',
+            'custom_background': '#2B2B2B',
             'font': 'Roboto-Thin',
             'color': '#FF0000'
         })
@@ -221,7 +266,8 @@ class ClockApp(App):
         """
         super().on_start()
 
-        # Apply initial font and color settings
+        # Apply initial background, font and color settings
+        self._apply_background()
         self._apply_aesthetics()
 
     def on_config_change(
@@ -246,13 +292,37 @@ class ClockApp(App):
             return
 
         if section == 'Aesthetics':
-            self._apply_aesthetics()
+            # Background changes
+            if key in ('background', 'custom_background'):
+                self._apply_background()
+            # Font and color changes
+            else:
+                self._apply_aesthetics()
 
         elif section == 'Display' and key == 'launch_mode':
             print(
                 f"INFO: Launch mode changed to '{value}'. "
                 "Please restart the application for this change to take effect."
             )
+
+    def _apply_background(self) -> None:
+        """
+        Applies background color to the root layout.
+
+        Uses the background preset or custom color from settings.
+        """
+        if not self.root:
+            return
+
+        # Get current settings
+        background_preset = self.config.get('Aesthetics', 'background')
+        custom_bg = self.config.get('Aesthetics', 'custom_background')
+
+        # Get background color
+        bg_rgba = get_background_color(background_preset, custom_bg)
+
+        # Apply to root layout
+        self.root.bg_color = bg_rgba
 
     def _apply_aesthetics(self) -> None:
         """
